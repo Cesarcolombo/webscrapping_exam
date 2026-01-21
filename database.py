@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class DatabaseManager :
@@ -8,6 +9,7 @@ class DatabaseManager :
         self.cree_table()
 
     def cree_table(self) :
+        #on intègre à la demonade url TEXT UNIQUE, la condition de la section XI
         query = """
         CREATE TABLE IF NOT EXISTS annonces (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,12 +23,23 @@ class DatabaseManager :
         )
         """
         self.cursor.execute(query)
+        #commit pour enregistrer
         self.conn.commit()
 
-    def insere_annonce(self, titre, prix, surface, ville, nb_pieces, url) :
-        pass
+    def insert_annonce(self, titre, prix, surface, ville, nb_pieces, url) :
+        #enregistrement de la date grâce à datetime et conversion pour ne pas avoir de pb de date à cause du SQL
+        date_actuelle = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            self.cursor.execute("""
+                INSERT INTO annonces (titre, prix, surface, ville, nb_pieces, url, date_scraping
+            """, (titre, prix, surface, ville, nb_pieces, url, date_actuelle))
+            # on commit comme demandé
+            self.conn.commit()
 
-    def lit_donnees() :
+        except sqlite3.IntegrityError:
+            pass
+
+    def get_all_annonces() :
         pass
 
     def ferme_base(self) :
