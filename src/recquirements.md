@@ -1,0 +1,6 @@
+Il est nécessaire d'éxecuter les lignes suivantes dans le terminal avant exécution des programmes/:
+conda install bs4
+conda install requests
+conda install sqlite3
+
+On pourra aussi télechrager SPlight3 pour visualiser la database.
