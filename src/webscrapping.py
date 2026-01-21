@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from database import DatabaseManager
 
 #url = "https://quotes.toscrape.com/page/1/"
 #response = requests.get(url)
@@ -15,6 +16,9 @@ from bs4 import BeautifulSoup
 
 
 #print(soup)
+
+database = DatabaseManager("data.db")
+
 def creer_soup(url):
     response = requests.get(url)
     html = response.text
@@ -33,7 +37,10 @@ def extraire_sur_une_page(soup):
     for quote in quotes:
         citation .append(quote.find("span", class_="text").get_text())
         tags.append([tag.get_text() for tag in quote.find_all("a", class_="tag")])
-    return [(citation[k] , tags[k]) for k in range(len(citation))]
+    for k in range (len(citation)) :
+        tags_str = ", ".join(tags[k])  # Transforme ['a', 'b'] en "a, b"
+        database.insert_citation(citation[k], tags_str)
+    return [[citation[k] , tags[k]] for k in range(len(citation))]
 #extraire_sur_une_page(soup)
 #print(str(extraire_sur_une_page(soup)))
 
@@ -52,6 +59,14 @@ def extraire_sur_plusieurs_pages(max):
 
 
 donnee = extraire_sur_plusieurs_pages(100)
+def remplacer(donnee,str1, str2):
+    for liste in donnee:
+        liste[0] = liste[0].replace(str1,str2)
+        for tag in liste[1]:
+            tag = tag.replace(str1,str2)
+    return donnee
+
+#remplacer(donnee, "&", "et")
 
 print(donnee[:2])  
 import json
@@ -59,3 +74,4 @@ with open("data.json", "w", encoding="utf-8") as f:
     json.dump(donnee, f, ensure_ascii=False, indent=4)
 
 
+database.__init__('data.db')
