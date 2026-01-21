@@ -23,11 +23,11 @@ class DatabaseManager :
         self.cursor.execute(query)
         self.conn.commit()
 
-    def insere_annonce() :
+    def insere_annonce(self, titre, prix, surface, ville, nb_pieces, url) :
         pass
 
     def lit_donnees() :
         pass
 
-    def ferme_base() :
-        pass
+    def ferme_base(self) :
+        self.conn.close()
