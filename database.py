@@ -28,7 +28,7 @@ class DatabaseManager :
 
     def insert_annonce(self, titre, prix, surface, ville, nb_pieces, url) :
         #enregistrement de la date grâce à datetime et conversion pour ne pas avoir de pb de date à cause du SQL
-        date_actuelle = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        date_actuelle = datetime.now().strftime("%Y-%M-%D %H:%M:%S")
         try:
             self.cursor.execute("""
                 INSERT INTO annonces (titre, prix, surface, ville, nb_pieces, url, date_scraping
@@ -36,11 +36,13 @@ class DatabaseManager :
             # on commit comme demandé
             self.conn.commit()
 
-        except sqlite3.IntegrityError:
-            pass
+        except sqlite3.IntegrityError :
+            print(f"Warning : une même annonce apparaît deux fois")
 
-    def get_all_annonces() :
-        pass
+    def get_all_annonces(self) :
+        self.cursor.execute("SELECT * FROM annonces")
+        #renvoie toutes les données du curseur
+        return self.cursor.fetchall()
 
     def ferme_base(self) :
         self.conn.close()
