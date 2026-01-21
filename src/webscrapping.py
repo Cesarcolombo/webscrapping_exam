@@ -38,7 +38,7 @@ def extraire_sur_une_page(soup):
         citation .append(quote.find("span", class_="text").get_text())
         tags.append([tag.get_text() for tag in quote.find_all("a", class_="tag")])
     for k in range (len(citation)) :
-        tags_str = ", ".join(tags[k])  # Transforme ['a', 'b'] en "a, b"
+        tags_str = ", ".join(tags[k])  # Transforme ['a', 'b'] en "a, b" --> nécessaire pour faire fonctionner l'algo avec la classe DatabaseManager
         database.insert_citation(citation[k], tags_str)
     return [[citation[k] , tags[k]] for k in range(len(citation))]
 #extraire_sur_une_page(soup)
@@ -72,6 +72,3 @@ print(donnee[:2])
 import json
 with open("data.json", "w", encoding="utf-8") as f:
     json.dump(donnee, f, ensure_ascii=False, indent=4)
-
-
-database.__init__('data.db')
