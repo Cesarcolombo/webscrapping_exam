@@ -18,3 +18,7 @@ for element in donnee:
                 
 
 print(compteur)
+
+
+longueur_citations = [len(element[0]) for element in donnee]
+print(longueur_citations)
