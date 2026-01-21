@@ -51,7 +51,7 @@ def extraire_sur_plusieurs_pages(max):
 
 
 
-donnee = extraire_sur_plusieurs_pages(1)
+donnee = extraire_sur_plusieurs_pages(100)
 
 print(donnee[:2])  
 import json
