@@ -59,7 +59,3 @@ with open("data.json", "w", encoding="utf-8") as f:
     json.dump(donnee, f, ensure_ascii=False, indent=4)
 
 
-
-def sauvegarder_donnees(donnees):
-    pass
-
